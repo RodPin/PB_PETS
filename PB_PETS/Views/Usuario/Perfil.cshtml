@@ -1,0 +1,19 @@
+﻿@model PB_PETS.Models.UsuarioModel
+
+<h5>Perfil</h5>
+
+<div >
+        <div class="card" style="width: 38rem;margin-bottom:24px;">
+          <img class="card-img-top" src="https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="image profile">
+          <div class="card-body">
+              
+            <h5 class="card-title">@Model.nome @Model.sobrenome</h5>
+            <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:12px;'>
+                <h6 class="card-title">@Model.email</h6>
+                <p>@Model.telefone</p>
+                <p>@Model.endereco</p>
+
+            </div>
+          </div>
+        </div>
+</div>

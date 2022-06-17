@@ -16,11 +16,11 @@ namespace PB_PETS.Controllers
         public ActionResult Listar()
         {
             conexao.Open();
-            var publicacoes = conexao.Query<PublicacaoUsuarioModel>("select Publicacao.texto,Publicacao.Id as idPublicacao,Usuario.nome,Usuario.id as idUsuario from Publicacao INNER JOIN Usuario ON Publicacao.idUsuario=Usuario.Id");
+            var publicacoes = conexao.Query<PublicacaoUsuarioModel>("select Publicacao.texto,Publicacao.Id as idPublicacao, Publicacao.dataCriacao as publicacaoDataCriacao,Usuario.nome,Usuario.id as idUsuario from Publicacao INNER JOIN Usuario ON Publicacao.idUsuario=Usuario.Id ORDER BY publicacaoDataCriacao ASC");
 
             foreach (var publicacao in publicacoes)
             {
-                publicacao.comentarios = (List<ComentarioUsuarioModel>)conexao.Query<ComentarioUsuarioModel>("SELECT * FROM Comentario INNER JOIN Usuario ON idUsuario=@idUsuario where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao, idUsuario = publicacao.idUsuario });
+                publicacao.comentarios = (List<ComentarioUsuarioModel>)conexao.Query<ComentarioUsuarioModel>("SELECT * FROM Comentario INNER JOIN Usuario ON Usuario.Id=Comentario.idUsuario where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao, idUsuario = publicacao.idUsuario });
                 var curtidas = conexao.Query<CurtidaModel>("SELECT * FROM Curtidas where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao });
                 publicacao.curtidas = curtidas.Count();
             };
@@ -38,6 +38,17 @@ namespace PB_PETS.Controllers
             conexao.Close();
             return Redirect("Listar");
         }
+
+
+        [HttpPost]
+        public ActionResult Comentar(ComentarioModel comentario)
+        {
+            conexao.Open();
+            conexao.Query<ComentarioModel>("INSERT INTO Comentario (idUsuario,idPublicacao,texto,dataCriacao) values(@idUsuario,@idPublicacao,@texto,@dataCriacao)", new { idUsuario = 1, texto = comentario.texto, idPublicacao = comentario.idPublicacao, dataCriacao = DateTime.Now });
+            conexao.Close();
+            return Redirect("Listar");
+        }
+
 
         [HttpPost]
         public ActionResult Curtir(PublicacaoModel publicacao)
@@ -57,5 +68,15 @@ namespace PB_PETS.Controllers
             conexao.Close();
             return Redirect("Listar");
         }
+
+        [HttpPost]
+        public ActionResult Deletar(PublicacaoModel publicacao)
+        {
+            conexao.Open();
+            conexao.Query<PublicacaoModel>("DELETE FROM Publicacao WHERE Id=@idPublicacao", new { idPublicacao = publicacao.Id});
+            conexao.Close();
+            return Redirect("Listar");
+        }
     }
 }
+
