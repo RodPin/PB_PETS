@@ -1,0 +1,28 @@
+﻿@model IEnumerable<PB_PETS.Models.PublicacaoUsuarioModel>
+
+<h5>Listar Publicacoes</h5>
+
+
+<div>
+    @foreach (var publicacao in Model)
+    {
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="https://s.yimg.com/ny/api/res/1.2/2sOkhRNbk1AC0S6vT5djMw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM2MA--/https://s.yimg.com/os/creatr-uploaded-images/2022-04/ff0a4190-b35f-11ec-bfbd-a91a802328ab" alt="Card image cap">
+          <div class="card-body">
+              
+            <h5 class="card-title">@publicacao.nome</h5>
+            <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:12px;'>
+                <h6 class="card-title">@publicacao.curtidas.Count Curtidas</h6>
+                <a href="#" class="btn btn-primary">Curtir</a>
+            </div>
+            <p class="card-text">@publicacao.texto</p>
+          </div>
+            <ul class="list-group list-group-flush">
+             @foreach (var comentario in publicacao.comentarios)
+                {
+                    <li class="list-group-item"><strong>@comentario.nome</strong>   @comentario.texto</li>
+                }
+          </ul>
+        </div>
+    }
+</div>
