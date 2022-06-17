@@ -16,7 +16,7 @@
 
         public int idPublicacao { get; set; }   
         public List<ComentarioUsuarioModel> comentarios { get; set; }
-        public List<CurtidaModel> curtidas { get; set; }
+        public int curtidas { get; set; }
        
     }
 }

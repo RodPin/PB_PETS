@@ -2,6 +2,13 @@
 
 <h5>Listar Publicacoes</h5>
 
+<form action="/publicacao/publicar" method="post">  
+    <div class="form-group">
+        <label for="texto">Escreva o texto</label>
+        <input  name="texto" class="form-control" id="exampleInputEmail1" placeholder="O que esta pensando?">
+    </div>
+    <button type="submit" class="btn btn-primary">Publicar</button>
+</form>
 
 <div>
     @foreach (var publicacao in Model)
@@ -12,8 +19,12 @@
               
             <h5 class="card-title">@publicacao.nome</h5>
             <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:12px;'>
-                <h6 class="card-title">@publicacao.curtidas.Count Curtidas</h6>
-                <a href="#" class="btn btn-primary">Curtir</a>
+                <h6 class="card-title">@publicacao.curtidas Curtidas</h6>
+                <form action="/publicacao/Curtir" method="post">  
+                    <input name="Id" value=@publicacao.idPublicacao  style="display:none;"/>
+                    <button type="submit" class="btn btn-primary">Curtir</button>
+                </form>
+                
             </div>
             <p class="card-text">@publicacao.texto</p>
           </div>
