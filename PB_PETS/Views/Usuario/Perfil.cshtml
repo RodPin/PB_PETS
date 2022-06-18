@@ -1,4 +1,4 @@
-﻿@model PB_PETS.Models.UsuarioModel
+﻿@model PB_PETS.Models.UsuarioPerfilModel
 
 <h5>Perfil</h5>
 
@@ -6,7 +6,29 @@
         <div class="card" style="width: 38rem;margin-bottom:24px;">
           <img class="card-img-top" src="https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="image profile">
           <div class="card-body">
-              
+    
+              @if (@Model.Id != 1)
+            {
+                if (@Model.isSolicitado)
+                {
+                    if (@Model.isAmigo)
+                    {
+                        <h6>Amigos</h6>
+                    }
+                    else
+                    {
+                        <h6>Amizade solicitada</h6>
+                    }
+                }
+                else
+                {
+                    <form action="/amizade/Adicionar" method="post">
+                         <input style="display:none;" name="Id" value="@Model.Id" />
+                         <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </form>
+                    
+                }
+            }
             <h5 class="card-title">@Model.nome @Model.sobrenome</h5>
             <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:12px;'>
                 <h6 class="card-title">@Model.email</h6>

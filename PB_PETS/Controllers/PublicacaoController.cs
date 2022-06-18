@@ -44,7 +44,7 @@ namespace PB_PETS.Controllers
         public ActionResult Comentar(ComentarioModel comentario)
         {
             conexao.Open();
-            conexao.Query<ComentarioModel>("INSERT INTO Comentario (idUsuario,idPublicacao,texto,dataCriacao) values(@idUsuario,@idPublicacao,@texto,@dataCriacao)", new { idUsuario = 1, texto = comentario.texto, idPublicacao = comentario.idPublicacao, dataCriacao = DateTime.Now });
+            conexao.Query<ComentarioModel>("INSERT INTO Comentario (idUsuario,idPublicacao,texto,dataCriacao) values(@idUsuario,@idPublicacao,@texto,@dataCriacao)", new { idUsuario = 2, texto = comentario.texto, idPublicacao = comentario.idPublicacao, dataCriacao = DateTime.Now });
             conexao.Close();
             return Redirect("Listar");
         }

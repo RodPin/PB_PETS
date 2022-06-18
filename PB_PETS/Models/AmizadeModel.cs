@@ -7,7 +7,7 @@
         public UsuarioModel usuarioOrigem { get; set; }
         public UsuarioModel usuarioDestino { get; set; }
 
-        public bool statusSolicitacao { get; set; }
+        public int statusDaSolicitacao { get; set; }
         public DateTime dataCriacao{ get; set; }
     }
 }
