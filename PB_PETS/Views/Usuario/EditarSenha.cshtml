@@ -1,0 +1,34 @@
+﻿@model PB_PETS.Models.EditarSenhaModel
+
+<h5>Editar Senha</h5>
+
+<div >
+        <div class="card" style="width: 38rem;margin-bottom:24px;">
+          <div class="card-body">
+            <form action="/usuario/EditarSenha" method="post">
+                <input value=1 name="Id" style="display:none;"/>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Senha atual</label>
+                    <input required class="form-control" name ="senhaAtual" aria-describedby="emailHelp" value=@Model.senhaAtual>
+                    @if(@Model.erroSenhaAtual == true){
+                        <span style="color:red;">Senha atual invalida</span>
+                    }
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nova Senha</label>
+                    <input required class="form-control" name ="senha" aria-describedby="emailHelp"value=@Model.senha >
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Confirme senha</label>
+                    <input required  class="form-control" name ="senha2" aria-describedby="emailHelp" value=@Model.senha2>
+                      @if(@Model.erroSenhaNova == true){
+                        <span style="color:red;">Senhas nao conferem</span>
+                    }
+                </div>
+
+              <button type="submit" class="btn btn-primary" >Editar senha</button>
+            </form>
+          </div>
+        </div>
+</div>

@@ -73,8 +73,54 @@ namespace PB_PETS.Controllers
             });
             conexao.Close();
 
-            
-            return Redirect("/usuario/Perfil" + "?Id="+ usuario.Id);
+
+            return Redirect("/usuario/Perfil" + "?Id=" + usuario.Id);
+        }
+
+        public ActionResult EditarSenha()  
+        {
+            var changeSenha = new EditarSenhaModel();
+            return View(changeSenha);
+        }
+
+        [HttpPost]
+        public ActionResult EditarSenha(EditarSenhaModel usuarioNovaSenha)
+        {
+
+            var changeSenha = new EditarSenhaModel();
+            conexao.Open();
+            List<UsuarioPerfilModel> usuarios = (List<UsuarioPerfilModel>)conexao.Query<UsuarioPerfilModel>("SELECT * FROM Usuario where Id=@id", new { id =usuarioNovaSenha.Id });
+            conexao.Close();
+
+            if (usuarios.Count == 0)
+            {
+                return RedirectToAction("/");
+            };
+            changeSenha.senhaAtual = usuarioNovaSenha.senhaAtual;
+            changeSenha.senha = usuarioNovaSenha.senha;
+            changeSenha.senha2 = usuarioNovaSenha.senha2;
+
+            var usuario = usuarios[0];
+            if(usuario.senha != usuarioNovaSenha.senhaAtual)
+            {
+                changeSenha.erroSenhaAtual = true;
+                return View(changeSenha);
+            }
+            if(usuarioNovaSenha.senha != usuarioNovaSenha.senha2)
+            {
+                changeSenha.erroSenhaNova = true;
+                return View(changeSenha);
+            }
+
+            conexao.Query<UsuarioPerfilModel>("UPDATE Usuario SET senha=@senha where Id = @id", new
+            {
+                id = usuarioNovaSenha.Id,
+                senha = usuarioNovaSenha.senha
+            });
+            conexao.Close();
+
+
+            return Redirect("/usuario/Perfil" + "?Id=" + usuario.Id);
         }
     }
 }
