@@ -19,9 +19,10 @@ namespace PB_PETS.Controllers
             List<UsuarioPerfilModel> usuarios = (List<UsuarioPerfilModel>)conexao.Query<UsuarioPerfilModel>("SELECT * FROM Usuario where Id=@id", new { id = int.Parse(id) });
             conexao.Close();
 
+            int meuId = 1;
             if (usuarios.Count > 0)
             {
-                List<AmizadeModel> amizades = (List<AmizadeModel>)conexao.Query<AmizadeModel>("SELECT * FROM Amizade where IdUsuarioDestino=@id AND idUsuarioOrigem=1  OR IdUsuarioDestino=1 AND idUsuarioOrigem=@id", new { id = int.Parse(id) });
+                List<AmizadeModel> amizades = (List<AmizadeModel>)conexao.Query<AmizadeModel>("SELECT * FROM Amizade where IdUsuarioDestino=@id AND idUsuarioOrigem=@meuId OR IdUsuarioDestino=@meuId AND idUsuarioOrigem=@id", new { id = int.Parse(id),meuId= meuId });
                 var usuario = usuarios[0];
 
                 usuario.isSolicitado = false;

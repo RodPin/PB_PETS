@@ -15,7 +15,7 @@ namespace PB_PETS.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/amizade/listar");
         }
 
         public IActionResult Privacy()

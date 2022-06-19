@@ -14,7 +14,8 @@
         public string endereco { get; set; }
         public string senha { get; set; }
 
-        public int idPublicacao { get; set; }   
+        public int idPublicacao { get; set; }
+
         public List<ComentarioUsuarioModel> comentarios { get; set; }
         public int curtidas { get; set; }
        
