@@ -5,7 +5,7 @@ using System.Data;
 
 namespace PB_PETS.Controllers
 {
-    public class UsuarioController :Controller
+    public class UsuarioController : Controller
     {
         private IDbConnection conexao;
 
@@ -16,14 +16,14 @@ namespace PB_PETS.Controllers
         public ActionResult Perfil(string id)
         {
             conexao.Open();
-            List<UsuarioPerfilModel> usuarios = (List<UsuarioPerfilModel>)conexao.Query<UsuarioPerfilModel>("SELECT * FROM Usuario where Id=@id", new {id= int.Parse(id)});
+            List<UsuarioPerfilModel> usuarios = (List<UsuarioPerfilModel>)conexao.Query<UsuarioPerfilModel>("SELECT * FROM Usuario where Id=@id", new { id = int.Parse(id) });
             conexao.Close();
-            
+
             if (usuarios.Count > 0)
             {
                 List<AmizadeModel> amizades = (List<AmizadeModel>)conexao.Query<AmizadeModel>("SELECT * FROM Amizade where IdUsuarioDestino=@id AND idUsuarioOrigem=1  OR IdUsuarioDestino=1 AND idUsuarioOrigem=@id", new { id = int.Parse(id) });
                 var usuario = usuarios[0];
-       
+
                 usuario.isSolicitado = false;
                 usuario.isAmigo = false;
                 if (amizades.Count > 0)
@@ -36,7 +36,45 @@ namespace PB_PETS.Controllers
                 }
                 return View(usuarios[0]);
             };
-            return RedirectToAction("Listar");
+            return RedirectToAction("/Publicacao/Listar");
+        }
+
+        public ActionResult EditarPerfil(string id)
+        {
+            if (int.Parse(id) != 1)
+            {
+                return RedirectToAction("/Publicacao/Listar");
+            }
+            conexao.Open();
+            List<UsuarioPerfilModel> usuarios = (List<UsuarioPerfilModel>)conexao.Query<UsuarioPerfilModel>("SELECT * FROM Usuario where Id=@id", new { id = int.Parse(id) });
+            conexao.Close();
+
+            if (usuarios.Count > 0)
+            {
+                var usuario = usuarios[0];
+
+                return View(usuario);
+            };
+            return RedirectToAction("/Publicacao/Listar");
+        }
+
+        [HttpPost]
+        public ActionResult EditarPerfil(UsuarioModel usuario)
+        {
+            conexao.Open();
+            conexao.Query<UsuarioPerfilModel>("UPDATE Usuario SET nome=@nome, sobrenome =@sobrenome, email=@email, telefone =@telefone, endereco =@endereco where Id = @Id", new
+            {
+                id = usuario.Id,
+                nome = usuario.nome,
+                sobrenome = usuario.sobrenome,
+                email = usuario.email,
+                telefone = usuario.telefone,
+                endereco = usuario.endereco
+            });
+            conexao.Close();
+
+            
+            return Redirect("/usuario/Perfil" + "?Id="+ usuario.Id);
         }
     }
 }

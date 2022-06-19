@@ -1,0 +1,38 @@
+﻿@model PB_PETS.Models.UsuarioPerfilModel
+
+<h5>Editar Perfil</h5>
+
+<div >
+        <div class="card" style="width: 38rem;margin-bottom:24px;">
+          <img class="card-img-top" src="https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="image profile">
+          <div class="card-body">
+            <form action="/usuario/EditarPerfil" method="post">
+                <input value=@Model.Id name="Id" style="display:none;"/>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nome</label>
+                    <input value=@Model.nome class="form-control" name ="nome" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Sobrenome</label>
+                    <input  value=@Model.sobrenome class="form-control" name ="sobrenome" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" value=@Model.email class="form-control" name ="email" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Telefone</label>
+                    <input value=@Model.telefone class="form-control" name ="telefone" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Endereco</label>
+                    <input value=@Model.endereco class="form-control" name ="endereco" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+            <h5 class="card-title">@Model.nome @Model.sobrenome</h5>
+           
+          </div>
+        </div>
+</div>
