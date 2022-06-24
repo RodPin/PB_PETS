@@ -6,7 +6,7 @@
         <div class="card" style="width: 38rem;margin-bottom:24px;">
           <div class="card-body">
             <form action="/usuario/EditarSenha" method="post">
-                <input value=1 name="Id" style="display:none;"/>
+                <input value=@Model.Id name="Id" style="display:none;"/>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Senha atual</label>
                     <input required class="form-control" name ="senhaAtual" aria-describedby="emailHelp" value=@Model.senhaAtual>

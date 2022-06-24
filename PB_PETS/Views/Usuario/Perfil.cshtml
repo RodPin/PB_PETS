@@ -16,7 +16,7 @@
           <div class="card-body">
               <div style="display:flex;flex-direction:row;justify-content:space-between;">
                   <h5 class="card-title">@Model.nome @Model.sobrenome</h5>
-              @if (@Model.Id != 1)
+              @if (@Model.isMine ==false)
             {
                 if (@Model.isSolicitado)
                 {
@@ -42,7 +42,7 @@
             {
                 <div style="display:flex;">
                     <a href="/usuario/editarSenha" style="margin-right:12px;"> Editar senha</a>
-                 <a href="/usuario/editarperfil?id=1">Editar Perfil</a>
+                 <a href="/usuario/editarperfil?id=@Model.Id">Editar Perfil</a>
                  </div>
             }
             

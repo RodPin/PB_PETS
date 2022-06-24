@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using PB_PETS.Helpers;
 using PB_PETS.Models;
 using System.Data;
 
@@ -12,6 +13,7 @@ namespace PB_PETS.Controllers
         private string blobConnectionString = "DefaultEndpointsProtocol=https;AccountName=rodstorage212121;AccountKey=J65S5+UoCngu3gx1f1NDTfAxUaOMH6REVKpw6ItRjUWNLpBW2KxImHeLAk2S7e6WvJ8RSlqgPpJs+ASta9ILMg==;EndpointSuffix=core.windows.net";
         private string containerName = "containerfinalpb";
         private string bucketUrl = "https://rodstorage212121.blob.core.windows.net/containerfinalpb";
+        private LoggedUser loggedUser = new LoggedUser();
 
 
         public PublicacaoController(IDbConnection conexao)
@@ -28,7 +30,7 @@ namespace PB_PETS.Controllers
                 publicacao.comentarios = (List<ComentarioUsuarioModel>)conexao.Query<ComentarioUsuarioModel>("SELECT * FROM Comentario INNER JOIN Usuario ON Usuario.Id=Comentario.idUsuario where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao, idUsuario = publicacao.idUsuario });
                 var curtidas = conexao.Query<CurtidaModel>("SELECT * FROM Curtidas where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao });
                 publicacao.curtidas = curtidas.Count();
-                publicacao.isMine = publicacao.idUsuario == 1 ? true : false;
+                publicacao.isMine = publicacao.idUsuario == loggedUser.getLoggedUser() ? true : false;
             };
 
             conexao.Close();
@@ -48,7 +50,6 @@ namespace PB_PETS.Controllers
 
             if (file != null)
             {
-                FotoController fotoController = new FotoController(conexao);
                 if (file == null)
                 {
                     return BadRequest();
@@ -75,7 +76,7 @@ namespace PB_PETS.Controllers
             }
 
             conexao.Open();
-            conexao.Query<PublicacaoModel>("INSERT INTO Publicacao (idUsuario,texto,foto,dataCriacao) values(@idUsuario,@texto,@foto,@dataCriacao)", new { idUsuario = 1, texto= texto,foto=foto,dataCriacao = DateTime.Now });
+            conexao.Query<PublicacaoModel>("INSERT INTO Publicacao (idUsuario,texto,foto,dataCriacao) values(@idUsuario,@texto,@foto,@dataCriacao)", new { idUsuario = loggedUser.getLoggedUser(), texto= texto,foto=foto,dataCriacao = DateTime.Now });
             conexao.Close();
             return Redirect("Listar");
         }
@@ -85,7 +86,7 @@ namespace PB_PETS.Controllers
         public ActionResult Comentar(ComentarioModel comentario)
         {
             conexao.Open();
-            conexao.Query<ComentarioModel>("INSERT INTO Comentario (idUsuario,idPublicacao,texto,dataCriacao) values(@idUsuario,@idPublicacao,@texto,@dataCriacao)", new { idUsuario = 2, texto = comentario.texto, idPublicacao = comentario.idPublicacao, dataCriacao = DateTime.Now });
+            conexao.Query<ComentarioModel>("INSERT INTO Comentario (idUsuario,idPublicacao,texto,dataCriacao) values(@idUsuario,@idPublicacao,@texto,@dataCriacao)", new { idUsuario = loggedUser.getLoggedUser(), texto = comentario.texto, idPublicacao = comentario.idPublicacao, dataCriacao = DateTime.Now });
             conexao.Close();
             return Redirect("Listar");
         }
@@ -95,15 +96,15 @@ namespace PB_PETS.Controllers
         public ActionResult Curtir(PublicacaoModel publicacao)
         {
             conexao.Open();
-            List<CurtidaModel>curtida = (List<CurtidaModel>)conexao.Query<CurtidaModel>("SELECT * FROM Curtidas where idPublicacao=@idPublicacao and idUsuario=@idUsuario", new { idPublicacao = publicacao.Id,idUsuario = 1 });
+            List<CurtidaModel>curtida = (List<CurtidaModel>)conexao.Query<CurtidaModel>("SELECT * FROM Curtidas where idPublicacao=@idPublicacao and idUsuario=@idUsuario", new { idPublicacao = publicacao.Id,idUsuario = loggedUser.getLoggedUser() });
 
             if(curtida.Count == 0)
             {
-                conexao.Query<PublicacaoModel>("INSERT INTO Curtidas (idUsuario,idPublicacao,dataCriacao) values(@idUsuario,@idPublicacao,@dataCriacao)", new { idUsuario = 1, idPublicacao = publicacao.Id, dataCriacao = DateTime.Now });
+                conexao.Query<PublicacaoModel>("INSERT INTO Curtidas (idUsuario,idPublicacao,dataCriacao) values(@idUsuario,@idPublicacao,@dataCriacao)", new { idUsuario = loggedUser.getLoggedUser(), idPublicacao = publicacao.Id, dataCriacao = DateTime.Now });
             }
             else
             {
-                conexao.Query<PublicacaoModel>("DELETE FROM Curtidas WHERE idPublicacao=@idPublicacao and idUsuario=@idUsuario", new { idUsuario = 1, idPublicacao = publicacao.Id, dataCriacao = DateTime.Now });
+                conexao.Query<PublicacaoModel>("DELETE FROM Curtidas WHERE idPublicacao=@idPublicacao and idUsuario=@idUsuario", new { idUsuario = loggedUser.getLoggedUser(), idPublicacao = publicacao.Id, dataCriacao = DateTime.Now });
             }
 
             conexao.Close();

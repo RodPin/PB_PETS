@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using PB_PETS.Helpers;
 using PB_PETS.Models;
 using System.Data;
 
@@ -12,6 +13,8 @@ namespace PB_PETS.Controllers
         private string blobConnectionString = "DefaultEndpointsProtocol=https;AccountName=rodstorage212121;AccountKey=J65S5+UoCngu3gx1f1NDTfAxUaOMH6REVKpw6ItRjUWNLpBW2KxImHeLAk2S7e6WvJ8RSlqgPpJs+ASta9ILMg==;EndpointSuffix=core.windows.net";
         private string containerName = "containerfinalpb";
         private string bucketUrl = "https://rodstorage212121.blob.core.windows.net/containerfinalpb";
+        private LoggedUser loggedUser = new LoggedUser();
+
         public UsuarioController(IDbConnection conexao)
         {
             this.conexao = conexao;
@@ -22,14 +25,15 @@ namespace PB_PETS.Controllers
             List<UsuarioPerfilModel> usuarios = (List<UsuarioPerfilModel>)conexao.Query<UsuarioPerfilModel>("SELECT * FROM Usuario where Id=@id", new { id = int.Parse(id) });
             conexao.Close();
 
-            int meuId = 1;
+        
             if (usuarios.Count > 0)
             {
-                List<AmizadeModel> amizades = (List<AmizadeModel>)conexao.Query<AmizadeModel>("SELECT * FROM Amizade where IdUsuarioDestino=@id AND idUsuarioOrigem=@meuId OR IdUsuarioDestino=@meuId AND idUsuarioOrigem=@id", new { id = int.Parse(id), meuId = meuId });
+                List<AmizadeModel> amizades = (List<AmizadeModel>)conexao.Query<AmizadeModel>("SELECT * FROM Amizade where IdUsuarioDestino=@id AND idUsuarioOrigem=@meuId OR IdUsuarioDestino=@meuId AND idUsuarioOrigem=@id", new { id = int.Parse(id), meuId = loggedUser.getLoggedUser() });
                 var usuario = usuarios[0];
 
                 usuario.isSolicitado = false;
                 usuario.isAmigo = false;
+                usuario.isMine = usuario.Id == loggedUser.getLoggedUser() ? true : false;
                 if (amizades.Count > 0)
                 {
                     usuario.isSolicitado = true;
@@ -84,6 +88,7 @@ namespace PB_PETS.Controllers
         public ActionResult EditarSenha()
         {
             var changeSenha = new EditarSenhaModel();
+            changeSenha.Id = loggedUser.getLoggedUser();
             return View(changeSenha);
         }
 
@@ -140,7 +145,6 @@ namespace PB_PETS.Controllers
 
             if (file != null)
             {
-                FotoController fotoController = new FotoController(conexao);
                 if (file == null)
                 {
                     return BadRequest();
@@ -186,6 +190,14 @@ namespace PB_PETS.Controllers
 
 
             return Redirect("/usuario/EditarPerfil" + "?Id=" + usuario.Id);
+        }
+
+        [HttpPost]
+
+        public ActionResult redirectPerfil()
+        {
+            return Redirect("/usuario/Perfil" + "?Id=" + loggedUser.getLoggedUser());
+
         }
     }
 }
