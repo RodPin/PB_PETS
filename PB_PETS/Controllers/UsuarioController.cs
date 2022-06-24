@@ -199,6 +199,36 @@ namespace PB_PETS.Controllers
             return Redirect("/usuario/Perfil" + "?Id=" + loggedUser.getLoggedUser());
 
         }
+
+        public ActionResult login()
+        {
+            return View();
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(UsuarioModel usuario)
+        {
+            conexao.Open();
+            conexao.Query<UsuarioModel>("INSERT INTO Usuario(nome,sobrenome,foto,email,telefone, dataCriacao,senha) values( @nome, @sobrenome,@foto,@email,@telefone, @dataCriacao,@senha)", new
+            {
+                nome = usuario.nome,
+                sobrenome = usuario.sobrenome,
+                email = usuario.email,
+                foto="",
+                telefone = usuario.telefone,
+                endereco = usuario.endereco,
+                senha=usuario.senha,
+                dataCriacao= DateTime.Now
+            });
+            conexao.Close();
+
+            return Redirect("/usuario/login");
+        }
     }
 }
     
