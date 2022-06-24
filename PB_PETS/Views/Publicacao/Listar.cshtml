@@ -2,13 +2,24 @@
 
 <h5>Listar Publicacoes</h5>
 
-<form action="/publicacao/publicar" method="post">  
-    <div class="form-group" style="margin-bottom:84px;width:100%">
+@using(Html.BeginForm("Publicar","Publicacao", FormMethod.Post, new { enctype="multipart/form-data"}))
+{
+      <div class="form-group" style="margin-bottom:84px;width:100%">
+        @Html.TextBox("file", "", new {  type= "file"}) <br />        
         <label for="texto">Escreva o texto</label>
         <input  name="texto" class="form-control" id="exampleInputEmail1" placeholder="O que esta pensando?">
-    <button type="submit" class="btn btn-primary" style="margin-top:34px;">Publicar</button>
+            <br/>
+        <button type="submit" class="btn btn-primary" style="margin-top:34px;">Publicar</button>
+        @ViewBag.Message
     </div>
-</form>
+}
+
+<f@*orm action="/publicacao/publicar" method="post">  
+    <div class="form-group" style="margin-bottom:84px;width:100%">
+        <label for="texto">Escreva o texto</label>
+        
+    </div>
+</form>*@
 
 <div >
     @if(@Model.Count() == 0)
@@ -17,15 +28,19 @@
     }
     @foreach (var publicacao in Model)
     {
-        <div class="card" style="width: 38rem;margin-bottom:24px;">
-            <form action="/publicacao/Deletar" method="post" style="position:absolute;top:0;right:0;">  
-                <input name="Id" value=@publicacao.idPublicacao  style="display:none;"/>
-                <button type="submit" class="btn btn-danger">Deletar</button>
-            </form>
-          <img class="card-img-top" src="https://s.yimg.com/ny/api/res/1.2/2sOkhRNbk1AC0S6vT5djMw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTM2MA--/https://s.yimg.com/os/creatr-uploaded-images/2022-04/ff0a4190-b35f-11ec-bfbd-a91a802328ab" alt="Card image cap">
+            <div class="card" style="width: 38rem;margin-bottom:24px;">
+                @if (@publicacao.isMine != false)
+                {
+                    <form action="/publicacao/Deletar" method="post" style="position:absolute;top:0;right:0;">  
+                        <input name="Id" value=@publicacao.idPublicacao  style="display:none;"/>
+                    <button type="submit" class="btn btn-danger">Deletar</button>
+                </form>
+            }
+          <img class="card-img-top" src=@publicacao.foto alt="Card image cap">
           <div class="card-body">
               
-            <h5 class="card-title"><a href="/usuario/perfil?id=@publicacao.idUsuario">@publicacao.nome</a></h5>
+            <h5 class="card-title"><a href="/usuario/perfil?id=@publicacao.idUsuario">@publicacao.nome </a></h5>
+
             <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:12px;'>
                 <h6 class="card-title">@publicacao.curtidas Curtidas</h6>
                 <form action="/publicacao/Curtir" method="post">  

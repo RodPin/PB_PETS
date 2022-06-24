@@ -1,0 +1,13 @@
+CREATE PROCEDURE AmizadeListar
+	@id int
+AS
+	SELECT Amizade.Id as idAmizade, Pessoa.Id as Id,Pessoa.nome ,Pessoa.sobrenome,pessoa.email,pessoa.telefone,Pessoa.telefone,pessoa.telefone,pessoa.idEstado ,pessoa.aniversario
+		from Amizade INNER JOIN Pessoa 
+			ON Amizade.idDestino = Pessoa.Id  
+			where  Amizade.idOrigem = @id
+		UNION
+			SELECT Amizade.Id as idAmizade, Pessoa.Id as Id,Pessoa.nome ,Pessoa.sobrenome,pessoa.email,pessoa.telefone,Pessoa.telefone,pessoa.telefone,pessoa.idEstado ,pessoa.aniversario
+				from Amizade 
+				INNER JOIN Pessoa 
+				ON Amizade.idOrigem = Pessoa.Id  
+				where  Amizade.idDestino = @id

@@ -14,6 +14,7 @@
         public string endereco { get; set; }
         public string senha { get; set; }
 
+        public bool? isMine { get; set; }
         public int idPublicacao { get; set; }
 
         public List<ComentarioUsuarioModel> comentarios { get; set; }
