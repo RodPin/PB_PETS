@@ -21,7 +21,7 @@ namespace PB_PETS.Controllers
         public ActionResult Listar()
         {
             conexao.Open();
-            var publicacoes = conexao.Query<PublicacaoUsuarioModel>("select Publicacao.texto,Publicacao.foto , Publicacao.Id as idPublicacao, Publicacao.dataCriacao as publicacaoDataCriacao,Usuario.nome,Usuario.id as idUsuario from Publicacao INNER JOIN Usuario ON Publicacao.idUsuario=Usuario.Id ORDER BY publicacaoDataCriacao ASC");
+            var publicacoes = conexao.Query<PublicacaoUsuarioModel>("select Publicacao.texto,Publicacao.foto , Publicacao.Id as idPublicacao, Publicacao.dataCriacao as publicacaoDataCriacao,Usuario.nome,Usuario.foto as fotoUsuario,Usuario.id as idUsuario from Publicacao INNER JOIN Usuario ON Publicacao.idUsuario=Usuario.Id ORDER BY publicacaoDataCriacao ASC");
 
             foreach (var publicacao in publicacoes)
             {

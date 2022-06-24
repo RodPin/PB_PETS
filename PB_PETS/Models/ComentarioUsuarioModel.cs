@@ -8,7 +8,8 @@
             public int idPublicacao { get; set; }
             public string texto { get; set; }
             public string nome { get; set; }
-            public DateTime dataCriacao { get; set; }
+            public string foto { get; set; }
+        public DateTime dataCriacao { get; set; }
         }
     }
 

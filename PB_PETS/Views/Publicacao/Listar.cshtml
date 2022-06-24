@@ -39,7 +39,13 @@
           <img class="card-img-top" src=@publicacao.foto alt="Card image cap">
           <div class="card-body">
               
-            <h5 class="card-title"><a href="/usuario/perfil?id=@publicacao.idUsuario">@publicacao.nome </a></h5>
+            <div style="display:flex; align-items:center;">
+                    @if(@publicacao.fotoUsuario != null && @publicacao.fotoUsuario != "")
+                    {
+                        <img src=@publicacao.fotoUsuario style="height:40px;width:40px;border-radius:25px;margin-right:12px"/>
+                    }
+                <h5 class="card-title"><a href="/usuario/perfil?id=@publicacao.idUsuario">@publicacao.nome </a></h5>
+            </div>
 
             <div style='display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:12px;'>
                 <h6 class="card-title">@publicacao.curtidas Curtidas</h6>

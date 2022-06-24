@@ -48,7 +48,7 @@ namespace PB_PETS.Controllers
             AmizadeList amizadeList = new AmizadeList();
             conexao.Open();
 
-            var publicacoesAmigos = conexao.Query<PublicacaoUsuarioModel>("SELECT Publicacao.texto,Publicacao.foto,Usuario.nome,Publicacao.dataCriacao FROM Publicacao INNER JOIN Usuario ON Usuario.Id = Publicacao.idUsuario WHERE idUsuario IN( SELECT idUsuarioDestino as Id FROM Amizade WHERE idUsuarioOrigem=@id AND statusDaSolicitacao = 1 UNION SELECT idUsuarioOrigem as Id FROM Amizade WHERE idUsuarioDestino=@id AND statusDaSolicitacao = 1)", new { id = 2 });
+            var publicacoesAmigos = conexao.Query<PublicacaoUsuarioModel>("SELECT Usuario.foto as fotoUsuario, Publicacao.texto,Publicacao.foto,Usuario.nome,Publicacao.dataCriacao FROM Publicacao INNER JOIN Usuario ON Usuario.Id = Publicacao.idUsuario WHERE idUsuario IN( SELECT idUsuarioDestino as Id FROM Amizade WHERE idUsuarioOrigem=@id AND statusDaSolicitacao = 1 UNION SELECT idUsuarioOrigem as Id FROM Amizade WHERE idUsuarioDestino=@id AND statusDaSolicitacao = 1)", new { id = 2 });
             var i = 0;
             foreach (var publicacao in publicacoesAmigos)
             {
