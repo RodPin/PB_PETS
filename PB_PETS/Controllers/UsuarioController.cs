@@ -37,14 +37,17 @@ namespace PB_PETS.Controllers
                 if (amizades.Count > 0)
                 {
                     usuario.isSolicitado = true;
+                    usuario.idAmizade = 0;
+
                     if (amizades[0].statusDaSolicitacao != 0)
                     {
                         usuario.isAmigo = true;
+                        usuario.idAmizade = amizades[0].Id;
                     }
                 }
                 return View(usuarios[0]);
             };
-            return RedirectToAction("/Publicacao/Listar");
+            return Redirect("/Publicacao/Listar");
         }
 
         public ActionResult EditarPerfil(string id)

@@ -6,7 +6,7 @@
         <div class="card" style="width: 38rem;margin-bottom:24px;">
                @if (@Model.foto!=null && Model.foto!="")
                 {
-                    <img class="card-img-top" src=@Model.foto alt="image profile">
+                    <img class="card-img-top" src=@Model.foto alt="image profile"/>
                 }
                 else
                 {   
@@ -22,7 +22,10 @@
                 {
                     if (@Model.isAmigo)
                     {
-                        <h6>Amigos</h6>
+                        <form action="/amizade/recusar" method="post">
+                            <input name="Id" value=@Model.idAmizade  style="display:none;"/>
+                            <button class="btn btn-danger" style="margin-right:12px">Desfazer amizade</button>
+                        </form>
                     }
                     else
                     {

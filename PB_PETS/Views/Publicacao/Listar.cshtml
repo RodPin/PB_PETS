@@ -60,7 +60,13 @@
           <ul class="list-group list-group-flush">
              @foreach (var comentario in publicacao.comentarios)
                 {
-                    <li class="list-group-item"><strong><a href="/usuario/perfil?id=@comentario.idUsuario">@comentario.nome</a></strong>   @comentario.texto</li>
+                    <li class="list-group-item">
+                            @if(@comentario.foto != null && @comentario.foto != "")
+                            {                                
+                                <img src=@comentario.foto style="height:20px;width:20px;border-radius:25px;margin-right:6px"/>
+                            }
+                        
+                        <strong><a href="/usuario/perfil?id=@comentario.idUsuario">@comentario.nome</a></strong>   @comentario.texto</li>
                 }
           </ul>
             <form action="/publicacao/comentar" method="post">  

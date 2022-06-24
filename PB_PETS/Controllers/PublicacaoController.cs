@@ -27,7 +27,7 @@ namespace PB_PETS.Controllers
 
             foreach (var publicacao in publicacoes)
             {
-                publicacao.comentarios = (List<ComentarioUsuarioModel>)conexao.Query<ComentarioUsuarioModel>("SELECT * FROM Comentario INNER JOIN Usuario ON Usuario.Id=Comentario.idUsuario where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao, idUsuario = publicacao.idUsuario });
+                publicacao.comentarios = (List<ComentarioUsuarioModel>)conexao.Query<ComentarioUsuarioModel>("SELECT * FROM Comentario INNER JOIN Usuario ON Usuario.Id=Comentario.idUsuario where Comentario.idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao });
                 var curtidas = conexao.Query<CurtidaModel>("SELECT * FROM Curtidas where idPublicacao=@idPublicacao", new { idPublicacao = publicacao.idPublicacao });
                 publicacao.curtidas = curtidas.Count();
                 publicacao.isMine = publicacao.idUsuario == loggedUser.getLoggedUser() ? true : false;

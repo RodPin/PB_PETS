@@ -1,1 +1,0 @@
-﻿INSERT INTO Usuario (nome,sobrenome,email,telefone,endereco,dataCriacao,senha) values ('Rafael','Dias','Rafa@gmail.com','21 992323293','Rua da conceicao 39','12/10/1992','123123')

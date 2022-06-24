@@ -11,6 +11,7 @@
             public string endereco { get; set; }
             public string? foto { get; set; }
             public bool? isMine { get; set; }
+            public int? idAmizade { get; set; }
         
         public bool isAmigo { get; set; }
             public bool isSolicitado { get; set; }

@@ -20,20 +20,22 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/publicacao/listar">Publicacoes</a>
+                             <form method="get" action="/publicacao/listar" style="margin-left:6px;">
+                                <button type="submit">Publicacoes</button>
+                            </form>
                         </li>
                         <li class="nav-item">
-                            <form method="post" action="/usuario/redirectPerfil">
+                            <form method="post" action="/usuario/redirectPerfil" style="margin-left:6px;">
                                 <button type="submit">Perfil</button>
                             </form>
                         </li>
                         <li class="nav-item">
-                            <form action="/usuario/login">
+                            <form action="/usuario/login" style="margin-left:6px;">
                                 <button type="submit">Login</button>
                             </form>
                         </li>
                         <li class="nav-item">
-                            <form action="/usuario/register">
+                            <form action="/usuario/register" style="margin-left:6px;">
                                 <button type="submit">Register</button>
                             </form>
                         </li>
