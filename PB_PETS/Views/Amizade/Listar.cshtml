@@ -3,7 +3,7 @@
   <h2 style="margin-bottom:20px;margin-top:30px;">Novas Amizades: @Model.novasAmizades.Count()</h2>
       @foreach (var novaAmizade in Model.novasAmizades)
     {
-        <div style="padding:8px;display:flex;align-items:center; boder:1px solid black;">
+        <div style="padding:8px;display:flex;align-items:center; border:1px solid black;">
             <form action="/amizade/aceitar" method="post">
                 <input name="Id" value=@novaAmizade.Id  style="display:none;"/>
                 <span style="margin-right:12px"><strong>@novaAmizade.nome @novaAmizade.sobrenome</strong> Quer te adicionar!</span>

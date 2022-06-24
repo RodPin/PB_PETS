@@ -3,8 +3,33 @@
 <h5>Editar Perfil</h5>
 
 <div >
-        <div class="card" style="width: 38rem;margin-bottom:24px;">
-          <img class="card-img-top" src="https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="image profile">
+        <div class="card" style="width: 38rem;margin-bottom:24px;position:relative;">
+            
+               @if (@Model.foto==null || Model.foto == "")
+                {
+                    
+                    @using(Html.BeginForm("putFoto","Usuario", FormMethod.Post, new { enctype="multipart/form-data"}))
+        {
+                      <div style="display:flex;height:300px;align-items:center;justify-content:center;flex-direction:column">
+                        @Html.TextBox("file", "", new {  type= "file"}) <br />        
+                        <input  name="id" style="display:none;" value="@Model.Id"/>
+                            <br/>
+                        <button type="submit" class="btn btn-primary" style="margin-top:34px;">Atualizar</button>
+                        @ViewBag.Message
+                    </div>
+                   }
+                }
+                else
+                {   
+                    <div>
+                           <form action="/usuario/deleteFoto" method="post" style="position:absolute;top:0;right:0;">  
+                                    <input name="Id" value=@Model.Id style="display:none;"/>
+                                <button type="submit" class="btn btn-danger">Deletar</button>
+                            </form>
+                    <img class="card-img-top" src=@Model.foto alt="image profile">
+                    </div>
+                }
+           
           <div class="card-body">
             <form action="/usuario/EditarPerfil" method="post">
                 <input value=@Model.Id name="Id" style="display:none;"/>

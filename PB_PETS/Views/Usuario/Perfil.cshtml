@@ -4,7 +4,15 @@
 
 <div >
         <div class="card" style="width: 38rem;margin-bottom:24px;">
-          <img class="card-img-top" src="https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="image profile">
+               @if (@Model.foto!=null && Model.foto!="")
+                {
+                    <img class="card-img-top" src=@Model.foto alt="image profile">
+                }
+                else
+                {   
+                <img class="card-img-top" src="https://png.pngtree.com/png-vector/20190710/ourlarge/pngtree-user-vector-avatar-png-image_1541962.jpg" alt="image profile">
+                }
+}
           <div class="card-body">
               <div style="display:flex;flex-direction:row;justify-content:space-between;">
                   <h5 class="card-title">@Model.nome @Model.sobrenome</h5>
